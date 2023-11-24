@@ -1,0 +1,4 @@
+flask
+flask-socketio
+base64
+opencv-python
