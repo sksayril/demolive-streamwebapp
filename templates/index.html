@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Camera Stream</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+</head>
+<body>
+    <h1>Camera Stream</h1>
+    <div>
+        <img id="camera_feed" width="640" height="480">
+    </div>
+
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('start_stream', function(data) {
+            setInterval(function() {
+                socket.emit('request_frame');
+            }, 100);  // Adjust the interval as needed
+
+            socket.on('update_frame', function(data) {
+                document.getElementById('camera_feed').src = 'data:image/jpeg;base64,' + data.image;
+            });
+        });
+    </script>
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Camera Stream</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.js"></script>
+</head>
+<body>
+    <h1>Camera Stream</h1>
+    <div>
+        <img id="camera_feed" width="640" height="480">
+    </div>
+
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('start_stream', function(data) {
+            setInterval(function() {
+                socket.emit('request_frame');
+            }, 100);  // Adjust the interval as needed
+
+            socket.on('update_frame', function(data) {
+                document.getElementById('camera_feed').src = 'data:image/jpeg;base64,' + data.image;
+            });
+        });
+    </script>
+</body>
+</html> -->
